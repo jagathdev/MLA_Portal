@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Globe, LogIn, LogOut, Shield, Menu, X, User } from "lucide-react";
+import logoUrl from "../../assets/images/logo.png";
 import "./Navbar.css";
 
 interface NavbarProps {
@@ -97,7 +98,7 @@ export default function Navbar({
       {/* Brand logo */}
       <div className="navbar__brand" onClick={() => handleNavClick("home")}>
         <img
-          src="/src/assets/images/logo.png"
+          src={logoUrl}
           alt="Sholinghur Temple"
           className="navbar__emblem"
           style={{ borderRadius: "50%", objectFit: "cover" }}

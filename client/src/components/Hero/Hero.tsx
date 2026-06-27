@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ArrowRight, Search, CheckCircle2, ShieldCheck, Zap, ExternalLink } from "lucide-react";
+import kapilVijayPhoto from "../../assets/images/kapil_vijay.jpeg";
 import "./Hero.css";
 
 interface HeroProps {
@@ -140,7 +141,7 @@ export default function Hero({ currentLang, setCurrentView, userRole }: HeroProp
         <div className="hero__media">
           <div className="hero__image-frame animate-float">
             <img
-              src="/src/assets/images/kapil_vijay.jpeg"
+              src={kapilVijayPhoto}
               alt="Hon'ble CM Vijay and Dr. Kapil MLA"
               className="hero__mla-image"
               referrerPolicy="no-referrer"

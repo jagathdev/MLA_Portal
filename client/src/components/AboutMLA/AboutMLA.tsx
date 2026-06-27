@@ -1,4 +1,5 @@
 import { Award, Heart, Mail, MessageSquare, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
+import kapilPhoto from "../../assets/images/kapil_photo.png";
 import "./AboutMLA.css";
 
 interface AboutMLAProps {
@@ -74,7 +75,7 @@ export default function AboutMLA({ currentLang }: AboutMLAProps) {
         <div className="about-mla__media">
           <div className="about-mla__frame">
             <img
-              src="/src/assets/images/kapil_photo.png"
+              src={kapilPhoto}
               alt="Dr. Kapil MLA portrait"
               className="about-mla__image"
               referrerPolicy="no-referrer"

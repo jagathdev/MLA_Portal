@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Mail, Check } from "lucide-react";
+import { Mail, Check, Phone, MapPin, Facebook, Twitter, Instagram, Youtube, ExternalLink } from "lucide-react";
+import logoUrl from "../../assets/images/logo.png";
 import "./Footer.css";
 
 interface FooterProps {
@@ -104,7 +105,7 @@ export default function Footer({ currentLang, setCurrentView }: FooterProps) {
         <div className="footer__brand">
           <div className="footer__logo-group">
             <img
-              src="/src/assets/images/logo.png"
+              src={logoUrl}
               alt="Sholinghur Temple"
               className="footer__logo-emblem"
               style={{ borderRadius: "50%", objectFit: "cover" }}
