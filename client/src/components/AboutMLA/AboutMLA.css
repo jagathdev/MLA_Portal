@@ -1,0 +1,247 @@
+.about-mla {
+  background: radial-gradient(circle at 50% 50%, #172a45 0%, #060e19 100%);
+}
+
+.about-mla__container {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 60px;
+  max-width: 1300px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .about-mla__container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+}
+
+/* Styled portrait container */
+.about-mla__media {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.about-mla__frame {
+  position: relative;
+  width: 320px;
+  height: 440px;
+  border-radius: var(--border-radius-xl);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(10, 22, 40, 0.15);
+  border: 6px solid #ffffff;
+}
+
+/* Dual border simulating Tamil Nadu Government tri-colors (Saffron, White, Green) */
+.about-mla__frame::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border: 3px solid var(--color-saffron);
+  border-radius: calc(var(--border-radius-xl) + 6px);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.about-mla__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-smooth);
+}
+
+.about-mla__frame:hover .about-mla__image {
+  transform: scale(1.04);
+}
+
+.about-mla__badge {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius-md);
+  padding: 12px 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+}
+
+.about-mla__badge--1 {
+  top: 15%;
+  left: -30px;
+}
+
+.about-mla__badge--2 {
+  bottom: 15%;
+  right: -30px;
+}
+
+@media (max-width: 1024px) {
+  .about-mla__badge--1 { left: 10px; }
+  .about-mla__badge--2 { right: 10px; }
+}
+
+.about-mla__badge-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 107, 0, 0.1);
+  color: var(--color-saffron);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-mla__badge-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.about-mla__badge-val {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #ffffff;
+}
+
+/* Vision / Right panel content */
+.about-mla__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-mla__quote-box {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.about-mla__quote-icon {
+  font-family: var(--font-serif);
+  font-size: 5rem;
+  line-height: 1;
+  color: rgba(255, 107, 0, 0.15);
+  position: absolute;
+  top: -35px;
+  left: -20px;
+  user-select: none;
+}
+
+.about-mla__quote-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  color: #ffffff;
+  position: relative;
+  z-index: 2;
+  margin-bottom: 16px;
+}
+
+.about-mla__vision {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 30px;
+}
+
+/* Vertical Achievements Stepper */
+.about-mla__timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-left: 2px solid rgba(255, 107, 0, 0.15);
+  padding-left: 24px;
+  margin-bottom: 36px;
+  text-align: left;
+}
+
+.about-mla__timeline-item {
+  position: relative;
+}
+
+.about-mla__timeline-dot {
+  position: absolute;
+  left: -31px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-saffron);
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
+}
+
+.about-mla__timeline-year {
+  font-family: var(--font-accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-saffron);
+  margin-bottom: 4px;
+}
+
+.about-mla__timeline-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+
+.about-mla__timeline-desc {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Social links */
+.about-mla__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 24px;
+}
+
+@media (max-width: 1024px) {
+  .about-mla__footer {
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
+.about-mla__socials {
+  display: flex;
+  gap: 12px;
+}
+
+.about-mla__social-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  text-decoration: none;
+}
+
+.about-mla__social-btn:hover {
+  background: var(--color-saffron);
+  color: #ffffff;
+  border-color: var(--color-saffron);
+  transform: translateY(-3px);
+}

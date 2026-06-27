@@ -1,0 +1,102 @@
+.stats-bar {
+  background-color: #060e19;
+  border-top: 1px solid rgba(255, 107, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 107, 0, 0.2);
+  padding: 40px 5%;
+  position: relative;
+  z-index: 10;
+}
+
+.stats-bar__container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+@media (max-width: 900px) {
+  .stats-bar__container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 20px;
+  }
+}
+
+@media (max-width: 500px) {
+  .stats-bar__container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+.stats-bar__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding: 10px 20px;
+}
+
+/* Thin saffron separators */
+.stats-bar__card:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  top: 15%;
+  width: 1px;
+  height: 70%;
+  background: linear-gradient(to bottom, transparent, var(--color-saffron), transparent);
+}
+
+@media (max-width: 900px) {
+  .stats-bar__card:nth-child(2)::after {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .stats-bar__card::after {
+    display: none !important;
+  }
+}
+
+.stats-bar__icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 107, 0, 0.1);
+  border: 1px solid rgba(255, 107, 0, 0.2);
+  color: var(--color-gold);
+  margin-bottom: 16px;
+  transition: var(--transition-smooth);
+}
+
+.stats-bar__card:hover .stats-bar__icon-box {
+  transform: scale(1.1);
+  background: rgba(255, 107, 0, 0.2);
+  color: var(--color-saffron);
+}
+
+.stats-bar__number {
+  font-family: var(--font-accent);
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-weight: 700;
+  color: var(--color-gold);
+  line-height: 1.1;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.stats-bar__label {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}

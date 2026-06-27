@@ -1,0 +1,119 @@
+.categories {
+  background: radial-gradient(circle at 50% 50%, #172a45 0%, #060e19 100%);
+}
+
+.categories__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1100px) {
+  .categories__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .categories__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .categories__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Category Card */
+.categories__card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--border-radius-lg);
+  padding: 30px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+}
+
+/* Accent Glow Top Border */
+.categories__card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--category-color, var(--color-saffron));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: var(--transition-smooth);
+}
+
+.categories__card:hover::before {
+  transform: scaleX(1);
+}
+
+.categories__card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(10, 22, 40, 0.08);
+  border-color: rgba(10, 22, 40, 0.08);
+}
+
+.categories__icon-box {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--border-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--category-color);
+  background-color: var(--category-bg);
+  margin-bottom: 20px;
+  transition: var(--transition-smooth);
+}
+
+.categories__card:hover .categories__icon-box {
+  transform: scale(1.1) rotate(5deg);
+  background-color: var(--category-color);
+  color: #ffffff;
+}
+
+.categories__name {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+  transition: var(--transition-smooth);
+}
+
+.categories__card:hover .categories__name {
+  color: var(--category-color);
+}
+
+.categories__badge {
+  font-family: var(--font-accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.75);
+  transition: var(--transition-smooth);
+}
+
+.categories__card:hover .categories__badge {
+  background-color: var(--category-color);
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}

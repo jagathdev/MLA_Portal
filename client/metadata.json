@@ -1,0 +1,6 @@
+{
+  "name": "Namma Ooru MLA",
+  "description": "Premium civic tech government complaint management portal for Sholinghur MLA Dr. Kapil.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
