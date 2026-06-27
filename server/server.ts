@@ -52,6 +52,13 @@ async function startServer() {
     });
   });
 
+  app.use(
+    cors({
+      origin: process.env.CLIENT_URL,
+      credentials: true,
+    })
+  );
+
   // Standalone API server central error handler
   app.use(errorMiddleware);
 

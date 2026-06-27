@@ -63,6 +63,7 @@
     min-height: auto;
     padding: 140px 5% 80px 5%;
   }
+
   .hero__container {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -97,7 +98,7 @@
 
 .hero__headline-accent {
   background: linear-gradient(135deg, var(--color-saffron) 0%, var(--color-gold) 100%);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -142,6 +143,7 @@
     flex-direction: column;
     width: 100%;
   }
+
   .hero__cta-group .btn {
     width: 100%;
   }
@@ -286,14 +288,17 @@
     padding-top: 30px;
     padding-bottom: 30px;
   }
+
   .hero__image-frame {
     width: 320px;
     height: 420px;
   }
+
   .hero__floating-card--1 {
     left: -10px;
     top: 10px;
   }
+
   .hero__floating-card--2 {
     right: -10px;
     bottom: 10px;

@@ -32,6 +32,7 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
   const [regVillage, setRegVillage] = useState("");
   const [regWard, setRegWard] = useState("");
   const [regPassword, setRegPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [regConfirmPassword, setRegConfirmPassword] = useState("");
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -170,7 +171,7 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
 
       const { token, user } = result.data;
       localStorage.setItem("namma_ooru_jwt_token", token);
-      
+
       // Store user profile details in localStorage to sync with the frontend's mock database
       const profile = {
         fullName: user.name,
@@ -397,7 +398,8 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
               <button
                 type="button"
                 className="auth-card__oauth"
-                onClick={() => { window.location.href = "http://localhost:3000/api/auth/google"; }}
+                onClick={() => { window.location.href = "/api/auth/google"; }}
+                disabled={isLoading}
               >
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
