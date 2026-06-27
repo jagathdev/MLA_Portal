@@ -7,7 +7,7 @@ import { register, login } from "../controllers/authController.js";
 const router = Router();
 
 const JWT_SECRET = process.env.JWT_SECRET || "default_fallback_jwt_secret_123!!";
-const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
+const CLIENT_URL = process.env.CLIENT_URL || "https://mla-portal-dusky.vercel.app";
 
 // ================================================================
 // NORMAL REGISTER - Email + Password

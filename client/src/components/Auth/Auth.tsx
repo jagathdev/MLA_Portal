@@ -152,7 +152,7 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
     }
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("https://mla-portal-server.onrender.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -217,7 +217,7 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
       }
 
       try {
-        const response = await fetch("/api/auth/register", {
+        const response = await fetch("https://mla-portal-server.onrender.com/api/auth/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -398,7 +398,7 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
               <button
                 type="button"
                 className="auth-card__oauth"
-                onClick={() => { window.location.href = "/api/auth/google"; }}
+                onClick={() => { window.location.href = "https://mla-portal-server.onrender.com/api/auth/google"; }}
                 disabled={isLoading}
               >
                 <img
