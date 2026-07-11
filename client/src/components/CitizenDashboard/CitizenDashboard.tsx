@@ -46,9 +46,14 @@ export default function CitizenDashboard({
   const initialProfile = getInitialProfile();
 
   // Account settings state
+  const isEmailInsteadOfMobile = citizenMobile.includes("@");
   const [accName, setAccName] = useState(citizenName);
-  const [accMobile, setAccMobile] = useState(citizenMobile);
-  const [accEmail, setAccEmail] = useState(initialProfile.email || "");
+  const [accMobile, setAccMobile] = useState(isEmailInsteadOfMobile ? "" : citizenMobile);
+  const [accEmail, setAccEmail] = useState(() => {
+    if (isEmailInsteadOfMobile) return citizenMobile;
+    if (initialProfile.email === "[EMAIL_ADDRESS]") return "";
+    return initialProfile.email || "";
+  });
   const [accVillage, setAccVillage] = useState(initialProfile.village || "");
   const [accWard, setAccWard] = useState(initialProfile.ward || "");
   const [accountSaved, setAccountSaved] = useState(false);
