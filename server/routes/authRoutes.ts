@@ -101,7 +101,7 @@ router.get(
 
     // Redirect frontend with token + role info
     res.redirect(
-      `${CLIENT_URL}/oauth-callback?token=${token}&role=${user.role}&name=${userName}&mobile=${userMobile}`
+      `${CLIENT_URL}/?token=${token}&role=${user.role}&name=${userName}&mobile=${userMobile}`
     );
   }
 );
