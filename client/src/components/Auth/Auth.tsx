@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { Eye, EyeOff, KeyRound, Smartphone, Shield, ArrowRight, UserPlus, Sparkles, Check, CheckCircle2, UserCheck, AlertCircle } from "lucide-react";
 import "./Auth.css";
 
+const API_URL = import.meta.env.VITE_API_URL || "https://mla-portal-server.onrender.com";
+
 interface AuthProps {
   currentLang: "en" | "ta";
   onLogin: (role: "citizen" | "admin", mobile: string, name: string) => void;
@@ -152,7 +154,7 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
     }
 
     try {
-      const response = await fetch("https://mla-portal-server.onrender.com/api/auth/login", {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -217,7 +219,7 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
       }
 
       try {
-        const response = await fetch("https://mla-portal-server.onrender.com/api/auth/register", {
+        const response = await fetch(`${API_URL}/api/auth/register`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -398,7 +400,7 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
               <button
                 type="button"
                 className="auth-card__oauth"
-                onClick={() => { window.location.href = "https://mla-portal-server.onrender.com/api/auth/google"; }}
+                onClick={() => { window.location.href = `${API_URL}/api/auth/google`; }}
                 disabled={isLoading}
               >
                 <img

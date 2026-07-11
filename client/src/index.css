@@ -66,6 +66,12 @@ body {
   background-color: var(--color-surface);
 }
 
+.app {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
 /* Glassmorphic Utilities */
 .glass-card {
   background: var(--color-glass-bg);

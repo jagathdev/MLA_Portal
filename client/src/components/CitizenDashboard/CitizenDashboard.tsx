@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
   LayoutDashboard, ListTodo, FileEdit, UserSquare2, LogOut, CheckCircle2,
-  Hourglass, CheckSquare, Search, PlusCircle, ArrowRight, Save, User, MapPin, BadgeCheck
+  Hourglass, CheckSquare, Search, PlusCircle, ArrowRight, Save, User, MapPin, BadgeCheck,
+  Globe
 } from "lucide-react";
 import { Complaint } from "../../types";
 import { getCitizenComplaints, saveComplaint, MOCK_CITIZEN_PROFILE } from "../../mockData";
@@ -13,6 +14,7 @@ interface CitizenDashboardProps {
   citizenMobile: string;
   onLogout: () => void;
   onSelectComplaint: (complaint: Complaint) => void;
+  onGoHome?: () => void;
   newComplaintDraft?: any;
 }
 
@@ -21,7 +23,8 @@ export default function CitizenDashboard({
   citizenName,
   citizenMobile,
   onLogout,
-  onSelectComplaint
+  onSelectComplaint,
+  onGoHome
 }: CitizenDashboardProps) {
   const [activeTab, setActiveTab] = useState<"overview" | "grievances" | "submit" | "account">("overview");
   const [complaints, setComplaints] = useState<Complaint[]>([]);
@@ -31,21 +34,32 @@ export default function CitizenDashboard({
   const [statusFilter, setStatusFilter] = useState("All");
   const [categoryFilter, setCategoryFilter] = useState("All");
 
+  // Profile loader helper
+  const getInitialProfile = () => {
+    try {
+      const saved = localStorage.getItem("namma_ooru_citizen_profile");
+      if (saved) return JSON.parse(saved);
+    } catch (e) { }
+    return { email: "", village: "", ward: "" };
+  };
+
+  const initialProfile = getInitialProfile();
+
   // Account settings state
   const [accName, setAccName] = useState(citizenName);
   const [accMobile, setAccMobile] = useState(citizenMobile);
-  const [accEmail, setAccEmail] = useState(MOCK_CITIZEN_PROFILE.email);
-  const [accVillage, setAccVillage] = useState(MOCK_CITIZEN_PROFILE.villageArea);
-  const [accWard, setAccWard] = useState(MOCK_CITIZEN_PROFILE.wardNumber);
+  const [accEmail, setAccEmail] = useState(initialProfile.email || "");
+  const [accVillage, setAccVillage] = useState(initialProfile.village || "");
+  const [accWard, setAccWard] = useState(initialProfile.ward || "");
   const [accountSaved, setAccountSaved] = useState(false);
 
   // File new complaint state
   const [newSubject, setNewSubject] = useState("");
   const [newDesc, setNewDesc] = useState("");
-  const [newCat, setNewCat] = useState("Roads & Infrastructure");
+  const [newCat, setNewCat] = useState("🛣️ Roads & Infrastructure");
   const [newPriority, setNewPriority] = useState("Medium");
-  const [newVillage, setNewVillage] = useState(MOCK_CITIZEN_PROFILE.villageArea);
-  const [newWard, setNewWard] = useState(MOCK_CITIZEN_PROFILE.wardNumber);
+  const [newVillage, setNewVillage] = useState(initialProfile.village || "");
+  const [newWard, setNewWard] = useState(initialProfile.ward || "");
   const [fileSuccess, setFileSuccess] = useState(false);
 
   const t = {
@@ -148,8 +162,8 @@ export default function CitizenDashboard({
       setNewDesc(parsed.description || "");
       setNewCat(parsed.category || "Roads & Infrastructure");
       setNewPriority(parsed.priority || "Medium");
-      setNewVillage(parsed.villageArea || MOCK_CITIZEN_PROFILE.villageArea);
-      setNewWard(parsed.wardNumber || MOCK_CITIZEN_PROFILE.wardNumber);
+      setNewVillage(parsed.villageArea || initialProfile.village || "");
+      setNewWard(parsed.wardNumber || initialProfile.ward || "");
 
       // Auto route user to "submit" page
       setActiveTab("submit");
@@ -160,6 +174,14 @@ export default function CitizenDashboard({
 
   const handleProfileSave = (e: React.FormEvent) => {
     e.preventDefault();
+    const updatedProfile = {
+      name: accName,
+      mobile: accMobile,
+      email: accEmail,
+      village: accVillage,
+      ward: accWard
+    };
+    localStorage.setItem("namma_ooru_citizen_profile", JSON.stringify(updatedProfile));
     setAccountSaved(true);
     setTimeout(() => setAccountSaved(false), 4000);
   };
@@ -221,6 +243,16 @@ export default function CitizenDashboard({
           </div>
 
           <nav className="dashboard-sidebar__menu">
+            {onGoHome && (
+              <button
+                className="dashboard-sidebar__btn"
+                onClick={onGoHome}
+              >
+                <Globe size={18} />
+                <span>{currentLang === "en" ? "Back to Home" : "முகப்பிற்கு செல்"}</span>
+              </button>
+            )}
+
             <button
               className={`dashboard-sidebar__btn ${activeTab === "overview" ? "dashboard-sidebar__btn--active" : ""}`}
               onClick={() => setActiveTab("overview")}
@@ -287,7 +319,11 @@ export default function CitizenDashboard({
           <div>
             {/* KPI count grid */}
             <div className="dashboard-kpi__grid">
-              <div className="dashboard-kpi__card">
+              <div
+                className="dashboard-kpi__card"
+                style={{ cursor: "pointer" }}
+                onClick={() => { setStatusFilter("All"); setActiveTab("grievances"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+              >
                 <div className="dashboard-kpi__icon" style={{ background: "rgba(255, 107, 0, 0.08)", color: "var(--color-saffron)" }}>
                   <CheckSquare size={24} />
                 </div>
@@ -297,7 +333,11 @@ export default function CitizenDashboard({
                 </div>
               </div>
 
-              <div className="dashboard-kpi__card">
+              <div
+                className="dashboard-kpi__card"
+                style={{ cursor: "pointer" }}
+                onClick={() => { setStatusFilter("Pending"); setActiveTab("grievances"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+              >
                 <div className="dashboard-kpi__icon" style={{ background: "rgba(245, 158, 11, 0.08)", color: "var(--color-warning)" }}>
                   <Hourglass size={24} />
                 </div>
@@ -307,7 +347,11 @@ export default function CitizenDashboard({
                 </div>
               </div>
 
-              <div className="dashboard-kpi__card">
+              <div
+                className="dashboard-kpi__card"
+                style={{ cursor: "pointer" }}
+                onClick={() => { setStatusFilter("Resolved"); setActiveTab("grievances"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+              >
                 <div className="dashboard-kpi__icon" style={{ background: "rgba(16, 185, 129, 0.08)", color: "var(--color-success)" }}>
                   <CheckCircle2 size={24} />
                 </div>
@@ -412,13 +456,13 @@ export default function CitizenDashboard({
                 onChange={(e) => setCategoryFilter(e.target.value)}
               >
                 <option value="All">{t.catAll}</option>
-                <option value="Roads & Infrastructure">Roads & Infrastructure</option>
-                <option value="Water Supply">Water Supply</option>
-                <option value="Electricity">Electricity</option>
-                <option value="Sanitation">Sanitation</option>
-                <option value="Healthcare">Healthcare</option>
-                <option value="Education">Education</option>
-                <option value="Agriculture">Agriculture</option>
+                <option value="🛣️ Roads & Infrastructure">🛣️ Roads & Infrastructure</option>
+                <option value="💧 Water Supply">💧 Water Supply</option>
+                <option value="💡 Electricity">💡 Electricity</option>
+                <option value="🗑️ Sanitation">🗑️ Sanitation</option>
+                <option value="🏥 Healthcare">🏥 Healthcare</option>
+                <option value="📚 Education">📚 Education</option>
+                <option value="🚜 Agriculture">🚜 Agriculture</option>
               </select>
             </div>
 
@@ -477,11 +521,11 @@ export default function CitizenDashboard({
 
         {/* 3. Submit Tab content */}
         {activeTab === "submit" && (
-          <div className="dashboard-list__card" style={{ maxWidth: "800px" }}>
-            <div className="dashboard-list__header">
+          <div className="dashboard-list__card" style={{ maxWidth: "800px", padding: "30px", background: "linear-gradient(to bottom, rgba(16, 25, 45, 0.8), rgba(10, 22, 40, 1))", border: "1px solid rgba(255,107,0,0.1)", boxShadow: "0 10px 30px rgba(0,0,0,0.2)" }}>
+            <div className="dashboard-list__header" style={{ marginBottom: "25px", borderBottom: "1px solid rgba(255,255,255,0.05)", paddingBottom: "15px" }}>
               <div>
-                <h3 className="dashboard-list__title">{t.newTitle}</h3>
-                <p style={{ fontSize: "0.85rem", color: "rgba(10, 22, 40, 0.5)", marginTop: "4px" }}>{t.newSub}</p>
+                <h3 className="dashboard-list__title" style={{ fontSize: "1.5rem", color: "var(--color-saffron)" }}>{t.newTitle}</h3>
+                <p style={{ fontSize: "0.95rem", color: "rgba(255, 255, 255, 0.6)", marginTop: "8px" }}>{t.newSub}</p>
               </div>
             </div>
 
@@ -500,14 +544,15 @@ export default function CitizenDashboard({
                     className="dashboard-select"
                     value={newCat}
                     onChange={(e) => setNewCat(e.target.value)}
+                    style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "12px", borderRadius: "8px" }}
                   >
-                    <option value="Roads & Infrastructure">Roads & Infrastructure</option>
-                    <option value="Water Supply">Water Supply</option>
-                    <option value="Electricity">Electricity</option>
-                    <option value="Sanitation">Sanitation</option>
-                    <option value="Healthcare">Healthcare</option>
-                    <option value="Education">Education</option>
-                    <option value="Agriculture">Agriculture</option>
+                    <option value="🛣️ Roads & Infrastructure">🛣️ Roads & Infrastructure</option>
+                    <option value="💧 Water Supply">💧 Water Supply</option>
+                    <option value="💡 Electricity">💡 Electricity</option>
+                    <option value="🗑️ Sanitation">🗑️ Sanitation</option>
+                    <option value="🏥 Healthcare">🏥 Healthcare</option>
+                    <option value="📚 Education">📚 Education</option>
+                    <option value="🚜 Agriculture">🚜 Agriculture</option>
                   </select>
                 </div>
 
@@ -517,10 +562,11 @@ export default function CitizenDashboard({
                     className="dashboard-select"
                     value={newPriority}
                     onChange={(e) => setNewPriority(e.target.value)}
+                    style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "12px", borderRadius: "8px" }}
                   >
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
+                    <option value="Low">🟢 Low</option>
+                    <option value="Medium">🟡 Medium</option>
+                    <option value="High">🔴 High</option>
                   </select>
                 </div>
               </div>
@@ -543,6 +589,7 @@ export default function CitizenDashboard({
                   rows={5}
                   placeholder="Describe the problem, precise location coordinates or milestones..."
                   className="dashboard-search-input"
+                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "12px", borderRadius: "8px" }}
                   value={newDesc}
                   onChange={(e) => setNewDesc(e.target.value)}
                   required
@@ -555,6 +602,8 @@ export default function CitizenDashboard({
                   <input
                     type="text"
                     className="dashboard-search-input"
+                    placeholder="Enter your village or town area"
+                    style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "12px", borderRadius: "8px" }}
                     value={newVillage}
                     onChange={(e) => setNewVillage(e.target.value)}
                     required
@@ -566,6 +615,8 @@ export default function CitizenDashboard({
                   <input
                     type="text"
                     className="dashboard-search-input"
+                    placeholder="E.g., Ward 4 (Optional)"
+                    style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", padding: "12px", borderRadius: "8px" }}
                     value={newWard}
                     onChange={(e) => setNewWard(e.target.value)}
                   />
@@ -654,6 +705,7 @@ export default function CitizenDashboard({
                   <input
                     type="text"
                     className="dashboard-search-input"
+                    placeholder="Enter Ward Number (Optional)"
                     value={accWard}
                     onChange={(e) => setAccWard(e.target.value)}
                   />

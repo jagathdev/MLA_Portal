@@ -230,18 +230,18 @@ export default function ComplaintForm({
                 required
               >
                 <option value="" disabled hidden></option>
-                <option value="Roads & Infrastructure">Roads & Infrastructure</option>
-                <option value="Water Supply">Water Supply</option>
-                <option value="Electricity">Electricity</option>
-                <option value="Sanitation">Sanitation</option>
-                <option value="Healthcare">Healthcare</option>
-                <option value="Education">Education</option>
-                <option value="Agriculture">Agriculture</option>
-                <option value="Public Safety">Public Safety</option>
-                <option value="Housing">Housing</option>
-                <option value="Employment Scheme">Employment Scheme</option>
-                <option value="Transport">Transport</option>
-                <option value="Women & Child Welfare">Women & Child Welfare</option>
+                <option value="🛣️ Roads & Infrastructure">🛣️ Roads & Infrastructure</option>
+                <option value="💧 Water Supply">💧 Water Supply</option>
+                <option value="💡 Electricity">💡 Electricity</option>
+                <option value="🗑️ Sanitation">🗑️ Sanitation</option>
+                <option value="🏥 Healthcare">🏥 Healthcare</option>
+                <option value="📚 Education">📚 Education</option>
+                <option value="🚜 Agriculture">🚜 Agriculture</option>
+                <option value="🛡️ Public Safety">🛡️ Public Safety</option>
+                <option value="🏠 Housing">🏠 Housing</option>
+                <option value="💼 Employment Scheme">💼 Employment Scheme</option>
+                <option value="🚌 Transport">🚌 Transport</option>
+                <option value="👩‍👧 Women & Child Welfare">👩‍👧 Women & Child Welfare</option>
               </select>
               <label htmlFor="form-category" className="complaint-form__label">{t.catLabel}</label>
             </div>
@@ -255,9 +255,9 @@ export default function ComplaintForm({
                 required
               >
                 <option value="" disabled hidden></option>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
+                <option value="Low">🟢 Low</option>
+                <option value="Medium">🟡 Medium</option>
+                <option value="High">🔴 High</option>
               </select>
               <label htmlFor="form-priority" className="complaint-form__label">{t.priorityLabel}</label>
             </div>

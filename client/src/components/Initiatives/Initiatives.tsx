@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import { MOCK_INITIATIVES } from "../../mockData";
 import "./Initiatives.css";
@@ -9,6 +9,23 @@ interface InitiativesProps {
 
 export default function Initiatives({ currentLang }: InitiativesProps) {
   const trackRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (trackRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = trackRef.current;
+        // If we reached the end, loop back to start. Otherwise, scroll to next card.
+        if (scrollLeft + clientWidth >= scrollWidth - 20) {
+          trackRef.current.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          trackRef.current.scrollBy({ left: clientWidth * 0.85, behavior: "smooth" });
+        }
+      }
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const t = {
     en: {
@@ -94,7 +111,7 @@ export default function Initiatives({ currentLang }: InitiativesProps) {
           ))}
         </div>
 
-        {/* Carousel buttons */}
+        {/* Carousel buttons
         <div className="initiatives__controls">
           <button
             className="initiatives__arrow-btn"
@@ -110,7 +127,7 @@ export default function Initiatives({ currentLang }: InitiativesProps) {
           >
             <ArrowRight size={20} />
           </button>
-        </div>
+        </div> */}
       </div>
     </section>
   );

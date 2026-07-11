@@ -82,6 +82,7 @@
   font-weight: 500;
   color: var(--color-primary);
   line-height: 1.5;
+  word-break: break-word;
 }
 
 /* Map Container */
@@ -180,3 +181,16 @@
 .contact__helpline-item--police .contact__helpline-number { color: var(--color-danger); }
 .contact__helpline-item--ambulance .contact__helpline-number { color: var(--color-success); }
 .contact__helpline-item--office .contact__helpline-number { color: #007bff; }
+
+/* Mobile Adjustments for Contact Section */
+@media (max-width: 600px) {
+  .contact__card {
+    padding: 24px 20px;
+  }
+  
+  .contact__helpline-item {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+}

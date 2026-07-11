@@ -7,7 +7,7 @@ passport.use(
         {
             clientID: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-            callbackURL: `${process.env.APP_URL || process.env.SERVER_URL || "https://mla-portal-server.onrender.com"}/api/auth/google/callback`,
+            callbackURL: process.env.APP_URL ? `${process.env.APP_URL}/api/auth/google/callback` : "http://localhost:3000/api/auth/google/callback",
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
@@ -26,9 +26,9 @@ passport.use(
                 const userEmail = email.toLowerCase().trim();
                 const resolvedRole = userEmail === "shrmlaadmin@gmail.com" ? "admin" : "citizen";
                 const newUser = await dbSaveUser({
-                    name: profile.displayName,
+                    name: profile.displayName || "Google User",
                     email: userEmail,
-                    mobile: "GOOGLE_AUTH",
+                    mobile: `GOOGLE_AUTH_${profile.id}`,
                     password: "GOOGLE_OAUTH_NO_PASSWORD",
                     city: "Sholinghur",
                     village: "",
@@ -39,6 +39,7 @@ passport.use(
 
                 return done(null, newUser);
             } catch (err) {
+                console.error("Error inside Google Strategy verify callback:", err);
                 return done(err, false);
             }
         }

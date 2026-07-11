@@ -85,16 +85,6 @@ export default function AboutMLA({ currentLang }: AboutMLAProps) {
             />
           </div>
 
-          <div className="about-mla__badge about-mla__badge--1">
-            <div className="about-mla__badge-icon">
-              <Award size={18} />
-            </div>
-            <div>
-              <div className="about-mla__badge-title">{t.badge1Title}</div>
-              <div className="about-mla__badge-val">{t.badge1Val}</div>
-            </div>
-          </div>
-
           <div className="about-mla__badge about-mla__badge--2">
             <div className="about-mla__badge-icon" style={{ background: "rgba(16, 185, 129, 0.1)", color: "var(--color-success)" }}>
               <Heart size={18} />

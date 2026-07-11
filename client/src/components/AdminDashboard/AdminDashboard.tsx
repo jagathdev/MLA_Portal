@@ -1,7 +1,8 @@
 import { useState, useEffect, React } from "react";
 import {
   Shield, CheckCircle2, AlertTriangle, ListFilter, Search, LogOut, ChevronDown, ChevronUp,
-  User, Smartphone, MapPin, Calendar, FileText, CheckCircle, RefreshCw
+  User, Smartphone, MapPin, Calendar, FileText, CheckCircle, RefreshCw,
+  Globe
 } from "lucide-react";
 import { Complaint } from "../../types";
 import { getAllComplaints, updateComplaintStatus } from "../../mockData";
@@ -12,13 +13,15 @@ interface AdminDashboardProps {
   adminName: string;
   onLogout: () => void;
   onSelectComplaint: (complaint: Complaint) => void;
+  onGoHome?: () => void;
 }
 
 export default function AdminDashboard({
   currentLang,
   adminName,
   onLogout,
-  onSelectComplaint
+  onSelectComplaint,
+  onGoHome
 }: AdminDashboardProps) {
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -173,6 +176,7 @@ export default function AdminDashboard({
   const pendingCount = complaints.filter((c) => c.status === "Pending").length;
   const reviewedCount = complaints.filter((c) => c.status === "Reviewed").length;
   const resolvedCount = complaints.filter((c) => c.status === "Resolved").length;
+  const dismissedCount = complaints.filter((c) => c.status === "Closed").length;
 
   // Filters logic
   const filteredComplaints = complaints.filter((c) => {
@@ -180,7 +184,16 @@ export default function AdminDashboard({
       c.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       c.citizenName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       c.subject.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === "All" || c.status === statusFilter;
+    
+    let matchesStatus = false;
+    if (statusFilter === "All") {
+      matchesStatus = c.status !== "Resolved" && c.status !== "Closed";
+    } else if (statusFilter === "Settled") {
+      matchesStatus = c.status === "Resolved" || c.status === "Closed";
+    } else {
+      matchesStatus = c.status === statusFilter;
+    }
+
     const matchesCategory = categoryFilter === "All" || c.category === categoryFilter;
     const matchesPriority = priorityFilter === "All" || c.priority === priorityFilter;
 
@@ -203,6 +216,12 @@ export default function AdminDashboard({
           <span style={{ fontSize: "0.9rem", color: "rgba(255, 255, 255, 0.6)", fontWeight: "600" }}>
             {t.welcome}: <span style={{ color: "var(--color-gold)" }}>{adminName}</span>
           </span>
+          {onGoHome && (
+            <button className="btn btn--outline" onClick={onGoHome} style={{ padding: "8px 16px" }}>
+              <Globe size={14} />
+              <span>{currentLang === "en" ? "Back to Home" : "முகப்பிற்கு செல்"}</span>
+            </button>
+          )}
           <button className="btn btn--outline" onClick={onLogout} style={{ borderColor: "rgba(239, 68, 68, 0.4)", color: "var(--color-danger)", background: "transparent", padding: "8px 16px" }}>
             <LogOut size={14} />
             <span>{t.logout}</span>
@@ -212,7 +231,11 @@ export default function AdminDashboard({
 
       {/* KPI Stats cards row */}
       <div className="admin-kpi__grid">
-        <div className="admin-kpi__card">
+        <div
+          className="admin-kpi__card"
+          style={{ cursor: "pointer" }}
+          onClick={() => { setStatusFilter("All"); window.scrollTo({ top: document.querySelector('.admin-table-card')?.getBoundingClientRect().top! + window.scrollY - 20, behavior: 'smooth' }); }}
+        >
           <div className="admin-kpi__icon" style={{ background: "rgba(255, 107, 0, 0.15)", color: "var(--color-saffron)" }}>
             <FileText size={20} />
           </div>
@@ -222,7 +245,11 @@ export default function AdminDashboard({
           </div>
         </div>
 
-        <div className="admin-kpi__card">
+        <div
+          className="admin-kpi__card"
+          style={{ cursor: "pointer" }}
+          onClick={() => { setStatusFilter("Pending"); window.scrollTo({ top: document.querySelector('.admin-table-card')?.getBoundingClientRect().top! + window.scrollY - 20, behavior: 'smooth' }); }}
+        >
           <div className="admin-kpi__icon" style={{ background: "rgba(245, 158, 11, 0.15)", color: "var(--color-warning)" }}>
             <AlertTriangle size={20} />
           </div>
@@ -232,7 +259,11 @@ export default function AdminDashboard({
           </div>
         </div>
 
-        <div className="admin-kpi__card">
+        <div
+          className="admin-kpi__card"
+          style={{ cursor: "pointer" }}
+          onClick={() => { setStatusFilter("Reviewed"); window.scrollTo({ top: document.querySelector('.admin-table-card')?.getBoundingClientRect().top! + window.scrollY - 20, behavior: 'smooth' }); }}
+        >
           <div className="admin-kpi__icon" style={{ background: "rgba(59, 130, 246, 0.15)", color: "#3b82f6" }}>
             <RefreshCw size={20} />
           </div>
@@ -242,13 +273,31 @@ export default function AdminDashboard({
           </div>
         </div>
 
-        <div className="admin-kpi__card">
+        <div
+          className="admin-kpi__card"
+          style={{ cursor: "pointer" }}
+          onClick={() => { setStatusFilter("Resolved"); window.scrollTo({ top: document.querySelector('.admin-table-card')?.getBoundingClientRect().top! + window.scrollY - 20, behavior: 'smooth' }); }}
+        >
           <div className="admin-kpi__icon" style={{ background: "rgba(16, 185, 129, 0.15)", color: "var(--color-success)" }}>
             <CheckCircle2 size={20} />
           </div>
           <div>
             <div className="admin-kpi__val">{resolvedCount}</div>
             <div className="admin-kpi__label">{t.kpiResolved}</div>
+          </div>
+        </div>
+
+        <div
+          className="admin-kpi__card"
+          style={{ cursor: "pointer" }}
+          onClick={() => { setStatusFilter("Closed"); window.scrollTo({ top: document.querySelector('.admin-table-card')?.getBoundingClientRect().top! + window.scrollY - 20, behavior: 'smooth' }); }}
+        >
+          <div className="admin-kpi__icon" style={{ background: "rgba(239, 68, 68, 0.15)", color: "#ef4444" }}>
+            <AlertTriangle size={20} />
+          </div>
+          <div>
+            <div className="admin-kpi__val">{dismissedCount}</div>
+            <div className="admin-kpi__label">Dismissed Complaints</div>
           </div>
         </div>
       </div>
@@ -277,7 +326,9 @@ export default function AdminDashboard({
             <option value="All">{t.statAll}</option>
             <option value="Pending">Pending</option>
             <option value="Reviewed">Reviewed</option>
+            <option value="In Progress">In Progress</option>
             <option value="Resolved">Resolved</option>
+            <option value="Closed">Dismissed</option>
           </select>
 
           <select
@@ -374,7 +425,7 @@ export default function AdminDashboard({
                                   {t.markReviewed}
                                 </button>
                               )}
-                              {comp.status !== "Resolved" && (
+                              {comp.status !== "Resolved" && comp.status !== "Closed" && comp.status !== "Rejected" && (
                                 <button
                                   className="admin-action-btn admin-action-btn--resolve"
                                   onClick={() => handleUpdateStatus(comp.id, "Resolved")}
@@ -433,7 +484,7 @@ export default function AdminDashboard({
                               <CheckCircle2 size={14} />
                             </button>
                           )}
-                          {comp.status !== "Closed" && comp.status !== "Rejected" && (
+                          {comp.status !== "Closed" && comp.status !== "Rejected" && comp.status !== "Resolved" && (
                             <button
                               className="admin-action-btn"
                               style={{ background: "rgba(239, 68, 68, 0.15)", border: "1px solid rgba(239, 68, 68, 0.3)", color: "#ef4444" }}
@@ -469,9 +520,10 @@ export default function AdminDashboard({
           alignItems: "center", justifyContent: "center", zIndex: 9999
         }}>
           <div style={{
-            background: "var(--color-bg-light)", padding: "24px",
+            background: "var(--color-surface)", padding: "24px",
             borderRadius: "12px", width: "100%", maxWidth: "500px",
-            color: "var(--color-text)"
+            border: "1px solid rgba(255, 255, 255, 0.15)",
+            color: "#ffffff"
           }}>
             <h2 style={{ marginTop: 0, marginBottom: "16px" }}>Resolution Details</h2>
             <form onSubmit={handleResolveSubmit} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
@@ -541,9 +593,10 @@ export default function AdminDashboard({
           alignItems: "center", justifyContent: "center", zIndex: 9999
         }}>
           <div style={{
-            background: "var(--color-bg-light)", padding: "24px",
+            background: "var(--color-surface)", padding: "24px",
             borderRadius: "12px", width: "100%", maxWidth: "400px",
-            color: "var(--color-text)"
+            border: "1px solid rgba(255, 255, 255, 0.15)",
+            color: "#ffffff"
           }}>
             <h2 style={{ marginTop: 0, marginBottom: "16px" }}>Mark In Progress</h2>
             <form onSubmit={handleInProgressSubmit} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
@@ -584,9 +637,10 @@ export default function AdminDashboard({
           alignItems: "center", justifyContent: "center", zIndex: 9999
         }}>
           <div style={{
-            background: "var(--color-bg-light)", padding: "24px",
+            background: "var(--color-surface)", padding: "24px",
             borderRadius: "12px", width: "100%", maxWidth: "400px",
-            color: "var(--color-text)"
+            border: "1px solid rgba(255, 255, 255, 0.15)",
+            color: "#ffffff"
           }}>
             <h2 style={{ marginTop: 0, marginBottom: "16px" }}>Dismiss Complaint</h2>
             <form onSubmit={handleDismissSubmit} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>

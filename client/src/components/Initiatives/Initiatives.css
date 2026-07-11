@@ -43,7 +43,7 @@
 
 @media (max-width: 650px) {
   .initiatives__card {
-    flex: 0 0 100%;
+    flex: 0 0 85%;
   }
 }
 

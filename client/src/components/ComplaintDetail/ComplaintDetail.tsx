@@ -75,8 +75,9 @@ export default function ComplaintDetail({ currentLang, complaint, onBack }: Comp
   const deptDetails = getDepartmentDetails(complaint.category);
 
   // Parse chronological state for the timeline steps
-  const isReviewed = complaint.status === ComplaintStatus.UNDER_REVIEW || complaint.status === ComplaintStatus.APPROVED || complaint.status === ComplaintStatus.IN_PROGRESS || complaint.status === ComplaintStatus.RESOLVED;
-  const isResolved = complaint.status === ComplaintStatus.RESOLVED;
+  const isReviewed = complaint.status === ComplaintStatus.UNDER_REVIEW || complaint.status === ComplaintStatus.APPROVED || complaint.status === ComplaintStatus.IN_PROGRESS || complaint.status === ComplaintStatus.RESOLVED || complaint.status === ComplaintStatus.CLOSED;
+  const isAssigned = complaint.status === ComplaintStatus.IN_PROGRESS || complaint.status === ComplaintStatus.RESOLVED || (complaint.status === ComplaintStatus.CLOSED && complaint.resolutionDetails);
+  const isResolved = complaint.status === ComplaintStatus.RESOLVED || complaint.status === ComplaintStatus.CLOSED;
 
   return (
     <div className="detail-viewport">
@@ -153,10 +154,10 @@ export default function ComplaintDetail({ currentLang, complaint, onBack }: Comp
                 <AlertTriangle size={18} />
                 {currentLang === "ta" ? "நிராகரிக்கப்பட்ட புகார்" : "Dismissed Complaint"}
               </h3>
-              <div style={{ fontSize: "0.8rem", color: "rgba(10, 22, 40, 0.6)", marginBottom: "4px" }}>
+              <div style={{ fontSize: "0.8rem", color: "rgba(255, 255, 255, 0.6)", marginBottom: "4px" }}>
                 {currentLang === "ta" ? "நிராகரிப்பிற்கான காரணம்" : "Reason for Dismissal"}
               </div>
-              <div style={{ fontSize: "0.95rem", color: "#0a1628" }}>
+              <div style={{ fontSize: "0.95rem", color: "#ffffff" }}>
                 {complaint.dismissalReason}
               </div>
             </div>
@@ -224,20 +225,24 @@ export default function ComplaintDetail({ currentLang, complaint, onBack }: Comp
 
             {/* Step 3: Assigned to department */}
             <div className="timeline-item">
-              <div className={`timeline-dot ${isReviewed ? "timeline-dot--amber" : "timeline-dot--grey"}`}></div>
+              <div className={`timeline-dot ${isAssigned ? "timeline-dot--amber" : "timeline-dot--grey"}`}></div>
               <div className="timeline-header">
-                <span className="timeline-step-title" style={{ opacity: isReviewed ? 1 : 0.5 }}>{t.statusAssigned}</span>
+                <span className="timeline-step-title" style={{ opacity: isAssigned ? 1 : 0.5 }}>{t.statusAssigned}</span>
               </div>
-              <p className="timeline-desc" style={{ opacity: isReviewed ? 1 : 0.5 }}>{t.statusAssignedDesc}</p>
+              <p className="timeline-desc" style={{ opacity: isAssigned ? 1 : 0.5 }}>{t.statusAssignedDesc}</p>
             </div>
 
             {/* Step 4: Resolved */}
             <div className="timeline-item">
-              <div className={`timeline-dot ${isResolved ? "timeline-dot--green" : "timeline-dot--grey"}`}></div>
+              <div className={`timeline-dot ${isResolved ? (complaint.status === ComplaintStatus.CLOSED ? "timeline-dot--amber" : "timeline-dot--green") : "timeline-dot--grey"}`}></div>
               <div className="timeline-header">
-                <span className="timeline-step-title" style={{ opacity: isResolved ? 1 : 0.5 }}>{t.statusResolved}</span>
+                <span className="timeline-step-title" style={{ opacity: isResolved ? 1 : 0.5 }}>
+                  {complaint.status === ComplaintStatus.CLOSED && complaint.dismissalReason ? "Issue Dismissed / Closed" : t.statusResolved}
+                </span>
               </div>
-              <p className="timeline-desc" style={{ opacity: isResolved ? 1 : 0.5 }}>{t.statusResolvedDesc}</p>
+              <p className="timeline-desc" style={{ opacity: isResolved ? 1 : 0.5 }}>
+                {complaint.status === ComplaintStatus.CLOSED && complaint.dismissalReason ? "Complaint was reviewed and dismissed by administration." : t.statusResolvedDesc}
+              </p>
             </div>
           </div>
         </div>

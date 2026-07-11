@@ -144,6 +144,11 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleGoHome = () => {
+    setCurrentView("home");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div className="app">
       {/* 1. Header Navigation - Shared everywhere except dashboards to avoid double navbar headers */}
@@ -198,6 +203,7 @@ export default function App() {
           citizenMobile={userMobile}
           onLogout={handleLogout}
           onSelectComplaint={handleSelectComplaint}
+          onGoHome={handleGoHome}
         />
       )}
 
@@ -208,6 +214,7 @@ export default function App() {
           adminName={userName}
           onLogout={handleLogout}
           onSelectComplaint={handleSelectComplaint}
+          onGoHome={handleGoHome}
         />
       )}
 

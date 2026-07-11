@@ -114,7 +114,7 @@ export default function Hero({ currentLang, setCurrentView, userRole }: HeroProp
               <Search size={18} />
               <span>{t.ctaTrack}</span>
             </button>
-            <a href="#how-it-works-section" className="btn btn--outline" style={{ color: "var(--color-primary)", borderColor: "rgba(10, 22, 40, 0.15)", background: "rgba(10, 22, 40, 0.02)", padding: "10px 20px" }}>
+            <a href="#how-it-works-section" className="btn btn--outline" style={{ padding: "10px 20px" }}>
               <span>Learn More</span>
               <ExternalLink size={18} />
             </a>

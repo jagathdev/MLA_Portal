@@ -97,7 +97,7 @@ router.get(
     );
 
     const userName = encodeURIComponent(user.name || "");
-    const userMobile = encodeURIComponent(user.mobile !== "GOOGLE_AUTH" ? user.mobile : user.email);
+    const userMobile = encodeURIComponent(!user.mobile.startsWith("GOOGLE_AUTH") ? user.mobile : user.email);
 
     // Redirect frontend with token + role info
     res.redirect(
