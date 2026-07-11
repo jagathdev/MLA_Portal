@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Globe, LogIn, LogOut, Shield, Menu, X, User } from "lucide-react";
-import logoUrl from "../../assets/images/logo.png";
+import logoUrl from "../../assets/images/new-logo.png";
 import "./Navbar.css";
 
 interface NavbarProps {

@@ -151,17 +151,15 @@ export default function App() {
 
   return (
     <div className="app">
-      {/* 1. Header Navigation - Shared everywhere except dashboards to avoid double navbar headers */}
-      {currentView !== "citizen-dashboard" && currentView !== "admin-dashboard" && (
-        <Navbar
-          currentView={currentView}
-          setCurrentView={setCurrentView}
-          currentLang={currentLang}
-          setCurrentLang={(lang) => setCurrentLang(lang)}
-          userRole={userRole}
-          onLogout={handleLogout}
-        />
-      )}
+      {/* 1. Header Navigation - Shared everywhere */}
+      <Navbar
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+        currentLang={currentLang}
+        setCurrentLang={(lang) => setCurrentLang(lang)}
+        userRole={userRole}
+        onLogout={handleLogout}
+      />
 
       {/* 2. Routing Views */}
       {currentView === "home" && (

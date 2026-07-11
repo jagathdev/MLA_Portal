@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Mail, Check, Phone, MapPin, Facebook, Twitter, Instagram, Youtube, ExternalLink } from "lucide-react";
-import logoUrl from "../../assets/images/logo.png";
+import logoUrl from "../../assets/images/new-logo.png";
 import "./Footer.css";
 
 interface FooterProps {

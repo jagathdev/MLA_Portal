@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Eye, EyeOff, KeyRound, Smartphone, Shield, ArrowRight, UserPlus, Sparkles, Check, CheckCircle2, UserCheck, AlertCircle } from "lucide-react";
+import logoUrl from "../../assets/images/new-logo.png";
 import "./Auth.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "https://mla-portal-server.onrender.com";
@@ -54,7 +55,7 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
       tabPass: "Password Login",
       tabOtp: "OTP Login",
       tabAdmin: "Admin Portal",
-      phoneLabel: "Email or Mobile Number",
+      phoneLabel: "Mobile Number",
       passLabel: "Account Password",
       rememberMe: "Remember me",
       forgotPass: "Forgot password?",
@@ -274,7 +275,7 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
             <div className="auth-card__left-glow"></div>
             <div className="auth-card__brand" onClick={() => setCurrentView("home")}>
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/8/81/Tamil_Nadu_State_Emblem.svg"
+                src={logoUrl}
                 alt="TN Government emblem"
                 className="auth-card__brand-logo"
                 referrerPolicy="no-referrer"
@@ -429,7 +430,7 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
             <div className="register-steps">
               <div className="auth-card__brand" onClick={() => setCurrentView("home")} style={{ marginBottom: "20px" }}>
                 <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/8/81/Tamil_Nadu_State_Emblem.svg"
+                  src={logoUrl}
                   alt="TN emblem"
                   className="auth-card__brand-logo"
                   referrerPolicy="no-referrer"
@@ -440,7 +441,11 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
                 </div>
               </div>
 
-              <div className={`register-step ${registerStep === 1 ? "register-step--active" : registerStep > 1 ? "register-step--completed" : ""}`}>
+              <div
+                className={`register-step ${registerStep === 1 ? "register-step--active" : registerStep > 1 ? "register-step--completed" : ""}`}
+                onClick={() => setRegisterStep(1)}
+                style={{ cursor: "pointer" }}
+              >
                 <div className="register-step__num">1</div>
                 <div>
                   <div className="register-step__title">{t.regStep1}</div>
@@ -448,7 +453,11 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
                 </div>
               </div>
 
-              <div className={`register-step ${registerStep === 2 ? "register-step--active" : registerStep > 2 ? "register-step--completed" : ""}`}>
+              <div
+                className={`register-step ${registerStep === 2 ? "register-step--active" : registerStep > 2 ? "register-step--completed" : ""}`}
+                onClick={() => setRegisterStep(2)}
+                style={{ cursor: "pointer" }}
+              >
                 <div className="register-step__num">2</div>
                 <div>
                   <div className="register-step__title">{t.regStep2}</div>
@@ -456,7 +465,11 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
                 </div>
               </div>
 
-              <div className={`register-step ${registerStep === 3 ? "register-step--active" : ""}`}>
+              <div
+                className={`register-step ${registerStep === 3 ? "register-step--active" : ""}`}
+                onClick={() => setRegisterStep(3)}
+                style={{ cursor: "pointer" }}
+              >
                 <div className="register-step__num">3</div>
                 <div>
                   <div className="register-step__title">{t.regStep3}</div>
@@ -610,10 +623,22 @@ export default function Auth({ currentLang, onLogin, onRegister, setCurrentView,
                 </div>
               )}
 
-              <button type="submit" className="btn btn--primary auth-card__submit-btn">
-                <span>{registerStep === 3 ? t.completeReg : t.nextStep}</span>
-                <ArrowRight size={18} />
-              </button>
+              <div style={{ display: "flex", gap: "12px" }}>
+                {registerStep > 1 && (
+                  <button
+                    type="button"
+                    className="btn btn--outline"
+                    onClick={() => setRegisterStep(registerStep - 1)}
+                    style={{ flex: "0 0 auto", padding: "14px 24px", borderRadius: "var(--border-radius-md)", fontWeight: 700 }}
+                  >
+                    <span>Back</span>
+                  </button>
+                )}
+                <button type="submit" className="btn btn--primary auth-card__submit-btn" style={{ flex: 1, width: "auto" }}>
+                  <span>{registerStep === 3 ? t.completeReg : t.nextStep}</span>
+                  <ArrowRight size={18} />
+                </button>
+              </div>
 
               <p className="auth-card__footer-text">
                 {t.yesAccount}{" "}

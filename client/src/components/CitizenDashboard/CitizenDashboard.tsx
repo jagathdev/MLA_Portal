@@ -51,7 +51,7 @@ export default function CitizenDashboard({
   const [accMobile, setAccMobile] = useState(isEmailInsteadOfMobile ? "" : citizenMobile);
   const [accEmail, setAccEmail] = useState(() => {
     if (isEmailInsteadOfMobile) return citizenMobile;
-    if (initialProfile.email === "[EMAIL_ADDRESS]") return "";
+    if (initialProfile.email === "rajesh@email.com") return "";
     return initialProfile.email || "";
   });
   const [accVillage, setAccVillage] = useState(initialProfile.village || "");
