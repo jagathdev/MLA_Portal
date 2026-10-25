@@ -43,6 +43,7 @@ async function startServer() {
   app.use("/api/complaints", complaintRoutes);
   app.use("/api/admin", adminRoutes);
 
+  
   // Health check API
   app.get("/api/health", (req, res) => {
     res.status(200).json({
